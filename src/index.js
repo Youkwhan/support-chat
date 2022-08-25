@@ -1,13 +1,16 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import SupportAdmin from "./components/SupportAdmin"
+
+const path = window.location.pathname
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <App />
+    {/* If we are on the support route render the SupportAdmin component else render App which will have support chat inside  */}
+    {path.indexOf('/support') === -1 ? <App /> : <SupportAdmin />}
   </React.StrictMode>
 );
 
