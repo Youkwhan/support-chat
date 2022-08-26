@@ -1,4 +1,7 @@
+import React from "react";
 import SupportEngine from "./components/SupportEngine";
+import './App.css';
+
 
 function App() {
 	return (
