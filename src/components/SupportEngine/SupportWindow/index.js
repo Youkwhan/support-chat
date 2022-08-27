@@ -1,5 +1,6 @@
 import React from "react";
 import { styles } from "../styles";
+import EmailForm from "./EmailForm";
 
 function SupportWindow(props) {
 	return (
@@ -9,7 +10,9 @@ function SupportWindow(props) {
 				...styles.supportWindow,
 				...{ opacity: props.visible ? "1" : "0" },
 			}}
-		></div>
+		>
+			<EmailForm />
+		</div>
 	);
 }
 
