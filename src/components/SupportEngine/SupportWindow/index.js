@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { styles } from "../styles";
 import EmailForm from "./EmailForm";
+import ChatEngine from "./ChatEngine";
 
 function SupportWindow(props) {
 	// email feed or chat feed
@@ -15,11 +16,17 @@ function SupportWindow(props) {
 				...{ opacity: props.visible ? "1" : "0" },
 			}}
 		>
-			<EmailForm 
-				setUser={user=> setUser(user)}
-				setChat = {chat => setChat(chat)}
-				visible = {user === null || chat === null}
-				/>
+			<EmailForm
+				visible={user === null || chat === null}
+				setUser={(user) => setUser(user)}
+				setChat={(chat) => setChat(chat)}
+			/>
+		
+			<ChatEngine
+				visible={user !== null || chat !== null}
+				user={user}
+				chat={chat}
+			/>
 		</div>
 	);
 }

@@ -9,7 +9,7 @@ function Avatar(props) {
 				className="transition-3"
 				style={{ ...styles.avatarHello, ...{ opacity: hovered ? "1" : "0" } }}
 			>
-				Hey it's mE{" "}
+				Hey it's mE
 			</div>
 			<div
 				className="transition-3"
@@ -19,8 +19,8 @@ function Avatar(props) {
 					...styles.chatWithMeButton,
 					...{ border: hovered ? "1px solid #f9f0ff" : "4px solid #7a39e0" },
 				}}
-            // if props.onClick is true/triggered then call the onClick function to setVisable to true
-            onClick={()=>props.onClick && props.onClick()}
+				// if props.onClick is true/triggered then call the onClick function to setVisable to true
+				onClick={() => props.onClick && props.onClick()}
 			></div>
 		</div>
 	);
