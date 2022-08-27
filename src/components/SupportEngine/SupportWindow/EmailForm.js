@@ -2,22 +2,71 @@ import React, { useState } from "react";
 import { LoadingOutlined } from "@ant-design/icons";
 import { styles } from "../styles";
 import Avatar from "../Avatar";
+import axios from "axios";
 
-function EmailForm() {
+function EmailForm(props) {
 	const [email, setEmail] = useState("");
 	const [loading, setLoading] = useState(false);
+
+	const getOrCreateUser = (callback) => {
+		axios
+			.put(
+				"https://api.chatengine.io/users/",
+				{
+					username: email,
+					email: email,
+					secret: email,
+				},
+				{ headers: { "Private-Key": process.env.REACT_APP_CE_PRIVATE_KEY } }
+			)
+			.then((r) => callback(r.data))
+			.catch((error) => console.log("Get or create user error", error));
+	};
+
+	const getOrCreateChat = (callback) => {
+		axios
+			.put(
+				"https://api.chatengine.io/chats/",
+				{
+					usernames: ["Youkwhan", email],
+					is_direct_chat: true,
+				},
+				{
+					headers: {
+						"Project-ID": process.env.REACT_APP_CE_PROJECT_ID,
+						"User-Name": email,
+						"User-Secret": email,
+					},
+				}
+			)
+			.then((r) => callback(r.data))
+			.catch((error) => console.log("Get or create chat error", error));
+	};
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
 		setLoading(true);
-		console.log("sending email", email);
+		console.log("Sending email", email);
+
+		// bundle api calls together and create the chat api
+		getOrCreateUser((user) => {
+			props.setUser(user);
+			getOrCreateChat((chat) => {
+				props.setChat(chat);
+				console.log("success", chat);
+			});
+		});
 	};
 
 	return (
 		<div
+         // Show email form or not
 			style={{
 				...styles.emailFormWindow,
-				...{ height: "100%", opacity: "1" },
+				...{
+					height: props.visible ? "100%" : "0",
+					opacity: props.visible ? "1" : "0",
+				},
 			}}
 		>
 			{/*diagonal line*/}
@@ -84,9 +133,9 @@ function EmailForm() {
 					/>
 				</form>
 
-            <div style={styles.bottomText}>
-               Enter your email <br/> to get started
-            </div>
+				<div style={styles.bottomText}>
+					Enter your email <br /> to get started
+				</div>
 			</div>
 		</div>
 	);
